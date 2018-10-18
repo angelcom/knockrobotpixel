@@ -1,5 +1,6 @@
 // 2018-10-7 makecode的substr默认长度10？太坑了
-class ArgsContainer {
+class MessageContainer {
+    cmd: string;
     args: string;
 }
 
@@ -80,7 +81,7 @@ namespace knock_robot_neopixel {
     class LinkedKeyHandlerList {
         key: string;
         // microbit中的callbak最多支持3个参数
-        callback: (args: ArgsContainer) => void;
+        callback: (container: MessageContainer) => void;
         next: LinkedKeyHandlerList
     }
 
@@ -90,14 +91,14 @@ namespace knock_robot_neopixel {
         next: LinkedIdHandlerList
     }
 
-    let messageContainer = new ArgsContainer;
+    let messageContainer = new MessageContainer;
 
     //% mutate=objectdestructuring
     //% mutateText="My Arguments"
     //% mutateDefaults="key,args"
     //% blockId=knock_robot_neopixel_onCmdReceived
     //% block="当收到蓝牙数据时 |命令 %cmd"
-    export function onCmdReceived(cmd: string, callback: (args: ArgsContainer) => void) {
+    export function onCmdReceived(cmd: string, callback: (container: MessageContainer) => void) {
         let newHandler = new LinkedKeyHandlerList()
         newHandler.callback = callback;
         newHandler.key = cmd;
@@ -500,6 +501,7 @@ namespace knock_robot_neopixel {
 
         let handlerToExamine = CMD_HANDLERS;
 
+        messageContainer.cmd = cmd;
         messageContainer.args = args;
 
         //analyzeCmd(cmd, arg);
@@ -518,6 +520,13 @@ namespace knock_robot_neopixel {
                     handlerToExamine.callback(messageContainer)
                     handled = true;
                 }
+                //2018-10-18新增
+                //系统保留回显命令，用于输出敲比特发送过来的完整命令
+                else if (handlerToExamine.key == "---") {
+                    handlerToExamine.callback(messageContainer)
+                    handled = true;
+                }
+
                 handlerToExamine = handlerToExamine.next
             }
 
