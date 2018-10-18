@@ -1,6 +1,6 @@
 {
     "name": "knockrobotpixel",
-    "version": "0.0.0",
+    "version": "0.0.1",
     "description": "Knock micro:bit with bulutooth,robotbit and neopixel. This edition remove sth. to save more memory!",
     "license": "MIT",
     "dependencies": {
