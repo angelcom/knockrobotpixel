@@ -1,7 +1,7 @@
 {
     "name": "knockrobotpixel",
     "version": "0.0.4",
-    "description": "Knock micro:bit with bulutooth,robotbit and neopixel. This edition remove sth. to save more memory!",
+    "description": "Knock micro:bit with buletooth,robotbit and neopixel. This edition remove sth. to save more memory!",
     "license": "MIT",
     "dependencies": {
         "core": "*",
